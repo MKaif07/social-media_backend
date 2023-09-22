@@ -30,13 +30,13 @@ app.use(express.json());
 app.use(morgan("common"));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-// app.use(
-//   cors({
-//     origin: "https://social-media-frontend-woad.vercel.app",
-//   })
-// );
+app.use(
+  cors({
+    origin: "https://social-media-frontend-woad.vercel.app",
+  })
+);
 
-app.use(cors());
+// app.use(cors());
 
 app.use("/assets", express.static(path.join(__dirname, "public/assets")));
 // app.use(express.static(path.resolve(__dirname, "build")));
@@ -59,6 +59,10 @@ app.post("/posts", verifyToken, upload.single("picture"), createPost);
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
 app.use("/posts", postRoutes);
+
+app.get("/", (req, res)=>{
+  res.send("Running...")
+})
 
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 6001;
